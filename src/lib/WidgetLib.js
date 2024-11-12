@@ -1,7 +1,6 @@
-import { Widget } from "Widget"
-
 export class WidgetLib {
-    constructor() {
+    constructor(resolver = undefined) {
+        this.resolver = resolver
     }
 
     /**
@@ -13,13 +12,11 @@ export class WidgetLib {
         return new Promise((resolve, reject) => {
             this.parseChildren(target).then(
                 () => {
-                    if (target.attributes.widget){
-                        const widget = new Widget(element)
-                        widget.init()
+                    if (target.attributes.widget && !target.attributes["widget-id"]){
+                        this.loadWidget(target)
                     }
                 }
             )
-
         })
     }
 
@@ -36,13 +33,28 @@ export class WidgetLib {
                     )
                 }
 
-                if (element.attributes.widget){
-                    const widget = new Widget(element)
-                    widget.init()
-                    resolve("yay")
-                } else {
-                    resolve("nope")
+                if (element.attributes.widget && !element.attributes["widget-id"]){
+                    this.loadWidget(element)
                 }
+            }
+        })
+    }
+
+    async loadWidget(target) {
+        return new Promise((resolve, reject) => {
+            const template = target.attributes.widget.value
+
+            if (this.resolver === undefined) {
+                // Default to dynamic import
+                import(template).then(
+                    (imported) => {
+                        const widget = new imported.default(target)
+                        resolve(widget.init())
+                    }
+                )
+            } else {
+                // Use custom resolver function
+                resolve(this.resolver(template))
             }
         })
     }

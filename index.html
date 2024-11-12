@@ -10,7 +10,10 @@
                 "uuid": "../node_modules/.pnpm/uuid@11.0.3/node_modules/uuid/dist/esm-browser/index.js",
                 "Util": "../src/lib/Util.js",
                 "WidgetLib": "../src/lib/WidgetLib.js",
-                "Widget": "../src/lib/Widget.js"
+                "Widget": "../src/lib/Widget.js",
+                "widgets/a": "../src/widgets/a.js",
+                "widgets/b": "../src/widgets/b.js",
+                "widgets/c": "../src/widgets/c.js"
             }
         }
     </script>
@@ -19,7 +22,9 @@
 <body>
     <div id="root">
         <div widget="widgets/a">
-            <div widget="widgets/b"></div>
+            <div widget="widgets/b">
+                <div widget="widgets/a"></div>
+            </div>
         </div>
         <div>Not a widget!</div> 
         <div widget="widgets/c"></div>
