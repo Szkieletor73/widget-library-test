@@ -22,8 +22,6 @@ export class Widget {
         this.id = uuid()
         this.element.setAttribute("widget-id", this.id)
 
-        console.log(this.constructor)
-        console.log(this.element.parentNode)
         this.element.outerHTML = `${this.template}${this.element.innerHTML}`
 
         if (done) done()

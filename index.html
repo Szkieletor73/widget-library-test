@@ -21,13 +21,14 @@
 </head>
 <body>
     <div id="root">
-        <div widget="widgets/a">
-            <div widget="widgets/b">
-                <div widget="widgets/a"></div>
+        <div widget="widgets/a">a
+            <div widget="widgets/b">b
+                <div>Not a widget!</div> 
+                <div widget="widgets/a">a</div>
             </div>
         </div>
         <div>Not a widget!</div> 
-        <div widget="widgets/c"></div>
+        <div widget="widgets/c">c</div>
     </div>
 </body>
 </html>

@@ -5,38 +5,47 @@ export class WidgetLib {
 
     /**
      * Initializes rendering of widgets, using the `target` as the root parent, and recursively iterating through it's children.
-     * @param {HTMLElement} target - element to initiate the rendering from
+     * @param {HTMLElement | string} target - HTMLElement of the root parent, or string representing it's ID
      * @param {function} callback - a callback function to execute when done
      */
     async init(target, callback = undefined) {
-        return new Promise((resolve, reject) => {
-            this.parseChildren(target).then(
-                () => {
-                    if (target.attributes.widget && !target.attributes["widget-id"]){
-                        this.loadWidget(target)
-                    }
-                }
-            )
-        })
+        if (typeof target === "string") {
+            target = document.getElementById(target.replace("#", ""))
+        }
+        
+        this.parseNode(target).then(
+            (resolved) => {
+                if (callback) callback(resolved)
+            },
+            (rejected) => {
+                if (callback) callback(rejected)
+            }
+        )
     }
 
     destroy(target) {}
 
-    async parseChildren(target) {
+    async parseNode(target) {
         return new Promise((resolve, reject) => {
-            for (const element of target.children) {
-                if (element.children.length) {
-                    this.parseChildren(element).then(
-                        (response) => {
-                            console.log(response)
-                        }
-                    )
-                }
-
-                if (element.attributes.widget && !element.attributes["widget-id"]){
-                    this.loadWidget(element)
-                }
+            let pending = []
+    
+            for (const child of target.children) {
+                pending.push(this.parseNode(child))
             }
+    
+            Promise.allSettled(pending).then(
+                (resolved) => {
+                    console.log(resolved)
+                    if (target.attributes.widget) {
+                        this.loadWidget(target).then(
+                            (resolved) => resolve(resolved),
+                            (rejected) => reject(rejected)
+                        )
+                    } else {
+                        resolve()
+                    }
+                }
+            )
         })
     }
 
@@ -49,12 +58,17 @@ export class WidgetLib {
                 import(template).then(
                     (imported) => {
                         const widget = new imported.default(target)
-                        resolve(widget.init())
-                    }
+                        widget.init().then()
+                    },
+                    (error) => reject(error)
                 )
             } else {
-                // Use custom resolver function
-                resolve(this.resolver(template))
+                if (this.resolver instanceof Function) {
+                    // Use custom resolver function
+                    resolve(this.resolver(template))
+                } else {
+                    reject(new Error("Resolver is not callable."))
+                }
             }
         })
     }
