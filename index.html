@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Triggre Test</title>
+    <script type="importmap">
+        {
+            "imports": {
+                "uuid": "../node_modules/.pnpm/uuid@11.0.3/node_modules/uuid/dist/esm-browser/index.js",
+                "Util": "../src/lib/Util.js",
+                "WidgetLib": "../src/lib/WidgetLib.js",
+                "Widget": "../src/lib/Widget.js"
+            }
+        }
+    </script>
+    <script type="module" src="index.js"></script>
+</head>
+<body>
+    <div id="root">
+        <div widget="widgets/a">
+            <div widget="widgets/b"></div>
+        </div>
+        <div>Not a widget!</div> 
+        <div widget="widgets/c"></div>
+    </div>
+</body>
+</html>
