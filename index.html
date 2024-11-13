@@ -18,17 +18,27 @@
         }
     </script>
     <script type="module" src="index.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div id="controls">
+        <button id="btn-initroot">Init on root</button>
+        <button id="btn-destroyroot">Destroy on root</button>
+    </div>
     <div id="root">
-        <div widget="widgets/a">a
-            <div widget="widgets/b">b
-                <div>Not a widget!</div> 
-                <div widget="widgets/a">a</div>
+        <div id="a" widget="widgets/a">
+            <div id="b" widget="widgets/b">
+                <div id="notwidget-nested">Not a widget!</div>
+                <div class="nested-c" widget="widgets/c"></div>
+                <div class="nested-a" widget="widgets/a"></div>
             </div>
         </div>
-        <div>Not a widget!</div> 
-        <div widget="widgets/c">c</div>
+        <div id="notwidget">Not a widget!</div> 
+        <div id="c" widget="widgets/c">
+            <div class="nested-b" widget="widgets/b">
+                <div class="nested-a" widget="widgets/a"></div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
