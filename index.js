@@ -18,7 +18,7 @@ addEventListener("DOMContentLoaded", (event) => {
     for (const btn of destroyBtns) {
         btn.addEventListener("click", function() {
             x.destroy(btn.parentNode.parentNode, (response) => {
-                console.log("Finished loading the widget tree!")
+                console.log("Finished destroying the widget tree!")
                 console.log(response)
             })
         })
