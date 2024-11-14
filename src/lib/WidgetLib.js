@@ -1,4 +1,4 @@
-export class WidgetLib {
+export default class WidgetLib {
     constructor() {
     }
 
@@ -33,23 +33,45 @@ export class WidgetLib {
      * @param {function} callback - a callback function to execute when done
      */
     async init(target, callback = undefined, resolver) {
+        const pending = []
         resolver = resolver || this.resolver
         target = this.parseTarget(target)
 
+        // Widgets in this implementation do not contain any props that can be affected by parent or child components.
+        // This means that initializing in a specific order is not necessary.
         const widgetList = target.querySelectorAll("[widget]")
 
         for (const el of widgetList) {
             if (!el.widget) {
                 const templatePath = el.attributes.widget.value
-                resolver(templatePath).then(
+                const resolverPromise = resolver(templatePath)
+                pending.push(resolverPromise)
+
+                resolverPromise.then(
                     (imported) => {
                         const widget = new imported.default(el)
                         el.widget = widget
-                        widget.init()
+                        widget.preInit()
+
+                        const initPromise = widget.init()
+                        pending.push(initPromise)
+
+                        initPromise.then(
+                            (success) => [
+                                widget.postInit()
+                            ]
+                        )
                     }
                 )
             }
         }
+
+        // Wait for every promise to resolve or reject, then callback
+        Promise.allSettled(pending).then(
+            (results) => {
+                callback && callback(results)
+            }
+        )
     }
 
     /**
@@ -59,11 +81,11 @@ export class WidgetLib {
     destroy(target) {
         target = this.parseTarget(target)
 
-        const widgetList = target.querySelectorAll("[widget-id]")
+        const widgetList = target.querySelectorAll("[widget]")
 
         for (const el of widgetList) {
             const widget = el.widget
-            if (widget) {
+            if (widget && !widget.isDestroyed && widget.isReady) {
                 try {
                     widget.destroy()
                     if (widget.isDestroyed) {

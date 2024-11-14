@@ -21,22 +21,73 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="controls">
-        <button id="btn-initroot">Init on root</button>
-        <button id="btn-destroyroot">Destroy on root</button>
-    </div>
     <div id="root">
+        <div class="controls">
+            <button class="btn-init">Init</button>
+            <button class="btn-destroy">Destroy</button>
+        </div>
+        #root
         <div id="a" widget="widgets/a">
+            <div class="controls">
+                <button class="btn-init">Init</button>
+                <button class="btn-destroy">Destroy</button>
+            </div>
+            widgets/a
             <div id="b" widget="widgets/b">
-                <div id="notwidget-nested">Not a widget!</div>
-                <div class="nested-c" widget="widgets/c"></div>
-                <div class="nested-a" widget="widgets/a"></div>
+                <div class="controls">
+                    <button class="btn-init">Init</button>
+                    <button class="btn-destroy">Destroy</button>
+                </div>
+                widgets/b
+                <div id="notwidget-nested">
+                    <div class="controls">
+                        <button class="btn-init">Init</button>
+                        <button class="btn-destroy">Destroy</button>
+                    </div>
+                    Not a widget!
+                </div>
+                <div class="nested-c" widget="widgets/c">
+                    <div class="controls">
+                        <button class="btn-init">Init</button>
+                        <button class="btn-destroy">Destroy</button>
+                    </div>
+                    widgets/c
+                </div>
+                <div class="nested-a" widget="widgets/a">
+                    <div class="controls">
+                        <button class="btn-init">Init</button>
+                        <button class="btn-destroy">Destroy</button>
+                    </div>
+                    widgets/a
+                </div>
             </div>
         </div>
-        <div id="notwidget">Not a widget!</div> 
+        <div id="notwidget">
+            <div class="controls">
+                <button class="btn-init">Init</button>
+                <button class="btn-destroy">Destroy</button>
+            </div>
+            Not a widget!
+        </div> 
         <div id="c" widget="widgets/c">
+            <div class="controls">
+                <button class="btn-init">Init</button>
+                <button class="btn-destroy">Destroy</button>
+            </div>
+            widgets/c
             <div class="nested-b" widget="widgets/b">
-                <div class="nested-a" widget="widgets/a"></div>
+                <div class="controls">
+                    <button class="btn-init">Init</button>
+                    <button class="btn-destroy">Destroy</button>
+                </div>
+                widgets/b
+                <div class="nested-a" widget="widgets/a">
+                    <div class="controls">
+                        <button class="btn-init">Init</button>
+                        <button class="btn-destroy">Destroy</button>
+                    </div>
+                    widgets/a
+                </div>
             </div>
         </div>
     </div>

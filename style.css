@@ -1,16 +1,49 @@
+button {
+    background: #5392db;
+    border-radius: 4px;
+    padding: 8px;
+    text-align: center;
+    border: none;
 
+    font-weight: bold;
+    color: #eee;
 
-#a, .nested-a {
-    background: greenyellow;
-    padding: 5px;
+    cursor: pointer;
+
+    transition: 0.3s background-color;
 }
 
-#b, .nested-b {
-    background: burlywood;
-    padding: 5px;
+button:hover {
+    background-color: #7da9db;
 }
 
-#c, .nested-c {
-    background: plum;
-    padding: 5px;
+button:active {
+    background-color: #afbecf;
+}
+
+div {
+    margin: 2px;
+    padding: 6px;
+    border: 1px solid black;
+
+    border-radius: 4px;
+}
+
+div.controls {
+    border: none;
+}
+
+/* Exists on widgets that have finished initialization. Lingers after destruction. */
+.widget-ready {
+    background: palegreen;
+}
+
+/* Only exists during the initialization period. */
+.widget-loading {
+    background: palegoldenrod;
+}
+
+/* Exists on widgets that were once initialized, but were destroyed at some point. Lingers after destruction. */
+.widget-destroyed {
+    background: palevioletred;
 }

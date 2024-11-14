@@ -1,24 +1,27 @@
-import { WidgetLib } from "WidgetLib"
+import X from "WidgetLib"
 
-let x = new WidgetLib()
+let x = new X()
 
 addEventListener("DOMContentLoaded", (event) => {
-    document.getElementById("btn-initroot").addEventListener("click", function() {
-        x.init("#root", (response) => {
-            console.log("Finished loading the widget tree!")
-            console.log(response)
-            console.log("Active widgets:")
-            console.log(x.getActiveWidgets())
+    const initBtns = document.getElementsByClassName("btn-init")
+    for (const btn of initBtns) {
+        btn.addEventListener("click", function() {
+            x.init(btn.parentNode.parentNode, (response) => {
+                console.log("Finished loading the widget tree!")
+                console.log(response)
+            })
         })
-    })
+    }
     
-    document.getElementById("btn-destroyroot").addEventListener("click", function() {
-        x.destroy("#root", (response) => {
-            console.log("Finished destroying the widget tree!")
-            console.log(response)
-            console.log("Active widgets:")
-            console.log(x.getActiveWidgets())
+    
+    const destroyBtns = document.getElementsByClassName("btn-destroy")
+    for (const btn of destroyBtns) {
+        btn.addEventListener("click", function() {
+            x.destroy(btn.parentNode.parentNode, (response) => {
+                console.log("Finished loading the widget tree!")
+                console.log(response)
+            })
         })
-    })
+    }
     
 })
