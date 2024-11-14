@@ -78,7 +78,8 @@ export default class WidgetLib {
      * Destroys all widgets descending from the given parent node.
      * @param {HTMLElement | string} target - HTMLElement of the root parent, or string representing it's ID
      */
-    destroy(target) {
+    destroy(target, callback = undefined) {
+        const deletedList = []
         target = this.parseTarget(target)
 
         const widgetList = target.querySelectorAll("[widget]")
@@ -89,6 +90,7 @@ export default class WidgetLib {
                 try {
                     widget.destroy()
                     if (widget.isDestroyed) {
+                        deletedList.push(widget.id)
                         // Ensures the widget is properly destroyed before removing it's instance from the HTMLElement
                         delete el.widget
                     }
@@ -97,5 +99,6 @@ export default class WidgetLib {
                 }
             }
         }
+        callback && callback(deletedList)
     }
 }
