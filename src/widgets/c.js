@@ -1,4 +1,4 @@
-import Widget from "Widget";
+import Widget from "../lib/Widget.js";
 
 export default class C extends Widget {
     template = `

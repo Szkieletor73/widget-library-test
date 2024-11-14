@@ -1,4 +1,4 @@
-import X from "WidgetLib"
+import X from "./lib/WidgetLib.js"
 
 let x = new X()
 

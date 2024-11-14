@@ -3,16 +3,12 @@ export default class WidgetLib {
     }
 
     /**
-     * Utilizes importmap in the index.html file to resolve widget names directly.
-     * 
-     * This requires a defined importmap. Some third party tools can do this, or it can be done manually.
-     * 
-     * Alternatively, this method could prepend "./src/" and append ".js" to the import argument. Both methods work the same in this case.
+     * Dynamically imports the widget
      * @param {string} templatePath 
      * @returns Promise resolving into the imported file.
      */
     resolver(templatePath) {
-        return import(templatePath)
+        return import(`../${templatePath}.js`)
     }
 
     /**
