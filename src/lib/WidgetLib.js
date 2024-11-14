@@ -41,7 +41,7 @@ export default class WidgetLib {
         // This means that initializing in a specific order is not necessary.
         const widgetList = target.querySelectorAll("[widget]")
 
-        for (const el of widgetList) {
+        for (const el of [target, ...widgetList]) {
             if (!el.widget) {
                 const templatePath = el.attributes.widget.value
                 const resolverPromise = resolver(templatePath)
@@ -83,7 +83,7 @@ export default class WidgetLib {
 
         const widgetList = target.querySelectorAll("[widget]")
 
-        for (const el of widgetList) {
+        for (const el of [target, ...widgetList]) {
             const widget = el.widget
             if (widget && !widget.isDestroyed && widget.isReady) {
                 try {
