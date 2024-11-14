@@ -1,5 +1,16 @@
+:root {
+    --surface: #eee;
+    --background: #222;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--background);
+}
+
 button {
-    background: #5392db;
+    background-color: #5392db;
     border-radius: 4px;
     padding: 8px;
     text-align: center;
@@ -21,29 +32,63 @@ button:active {
     background-color: #afbecf;
 }
 
-div {
+.base-div {
+    background-color: var(--surface);
     margin: 2px;
     padding: 6px;
-    border: 1px solid black;
+    border: 1px solid #888;
+    box-sizing: border-box;
 
     border-radius: 4px;
+    line-height: 64px;
+    position: relative;
+
+    box-shadow: 0px 1px 6px rgba(0,0,0,0.6);
+}
+
+#root {
+    max-width: 800px;
+    margin: auto;
+}
+
+.intro {
+    margin: 16px auto;
+    background-color: var(--surface);
+    max-width: 800px;
+    padding: 6px 32px;
+    box-sizing: border-box;
+
+    border-radius: 16px;
+
+    box-shadow: 0px 4px 4px black;
+}
+
+.intro-title {
+    text-align: center;
+}
+
+.intro p {
+    margin-block: 6px;
 }
 
 div.controls {
     border: none;
+    position: absolute;
+    right: 6px;
+    top: 0px;
 }
 
 /* Exists on widgets that have finished initialization. Lingers after destruction. */
 .widget-ready {
-    background: palegreen;
+    background-color: palegreen;
 }
 
 /* Only exists during the initialization period. */
 .widget-loading {
-    background: palegoldenrod;
+    background-color: palegoldenrod;
 }
 
 /* Exists on widgets that were once initialized, but were destroyed at some point. Lingers after destruction. */
 .widget-destroyed {
-    background: palevioletred;
+    background-color: palevioletred;
 }

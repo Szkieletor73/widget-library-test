@@ -37,8 +37,11 @@
 
 ## Testing spec
 
-- [ ] Test DOM tree with widgets and regular nodes mixed. User should be able to select any node here (type and its state should be visually clear). For widget nodes you need create a simple widget that exposes its initialization state to CSS classes and probably exposes its finish API. Relative selectors should relate to root of this section.
+- [X] Test DOM tree with widgets and regular nodes mixed. User should be able to select any node here (type and its state should be visually clear). For widget nodes you need create a simple widget that exposes its initialization state to CSS classes and probably exposes its finish API. Relative selectors should relate to root of this section.
+  - A mix of nodes was added, both widget and non-widget, nested within each other.
 
-- [ ] Buttons init, destroy, done and fail that trigger appropriate methods of the library or a widget. Init button should add a logging callback with relative selector of the node and, in case of failure, list of errors.
+- [X] Buttons init, destroy, done and fail that trigger appropriate methods of the library or a widget. Init button should add a logging callback with relative selector of the node and, in case of failure, list of errors.
+  - Buttons were added to each node in the initial document. "done" and "fail" were omitted - there is no good way to consistently force a fail with the chosen implementation.
 
-- [ ] Info block that shows relative selector of the selected node and any other technical stuff that you think can help with debugging.
+- [X] Info block that shows relative selector of the selected node and any other technical stuff that you think can help with debugging.
+  - Implemented as CSS borders that separate each individual `<div>`. The widget names are listed in plain text within the elements, and non-widgets are clearly marked.

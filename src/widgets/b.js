@@ -1,5 +1,16 @@
 import Widget from "Widget";
 
 export default class B extends Widget {
-    template = `<div>This is B!</div>`
+    template = `
+    <style>
+        .widget-b {
+            padding: 6px 24px;
+            margin: 8px;
+            background: paleturquoise;
+            font-weight: bold;
+            display: inline;
+        }
+    </style>
+    <div class="widget-b">This is B!</div>
+    `
 }

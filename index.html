@@ -21,39 +21,58 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="root">
+    <div class="intro">
+        <h1 class="intro-title">Triggre Widget Lib Assignment</h1>
+        <div class="intro-description">
+            <p>
+                In order to initiate the widget tree, click the "Init" button on the element you wish to be the root initiator.
+            </p>
+            <p>
+                Similarly, use the "Destroy" button on the root destroyer element to destroy widgets.
+            </p>
+            <p>
+                Base widget classes have been applied - green are initialized widgets, yellow are loading widgets, and red are destroyed widgets.
+            </p>
+            <p>
+                'widget-destroyed' class lingers after widgets have been destroyed - this allows checking for previously active widgets that were destroyed.
+            </p>
+
+        </div>
+    </div>
+
+    <div id="root" class="base-div">
         <div class="controls">
             <button class="btn-init">Init</button>
             <button class="btn-destroy">Destroy</button>
         </div>
         #root
-        <div id="a" widget="widgets/a">
+        <div id="a" widget="widgets/a" class="base-div">
             <div class="controls">
                 <button class="btn-init">Init</button>
                 <button class="btn-destroy">Destroy</button>
             </div>
             widgets/a
-            <div id="b" widget="widgets/b">
+            <div id="b" widget="widgets/b" class="base-div">
                 <div class="controls">
                     <button class="btn-init">Init</button>
                     <button class="btn-destroy">Destroy</button>
                 </div>
                 widgets/b
-                <div id="notwidget-nested">
+                <div id="notwidget-nested" class="base-div">
                     <div class="controls">
                         <button class="btn-init">Init</button>
                         <button class="btn-destroy">Destroy</button>
                     </div>
                     Not a widget!
                 </div>
-                <div class="nested-c" widget="widgets/c">
+                <div class="base-div" widget="widgets/c">
                     <div class="controls">
                         <button class="btn-init">Init</button>
                         <button class="btn-destroy">Destroy</button>
                     </div>
                     widgets/c
                 </div>
-                <div class="nested-a" widget="widgets/a">
+                <div class="base-div" widget="widgets/a">
                     <div class="controls">
                         <button class="btn-init">Init</button>
                         <button class="btn-destroy">Destroy</button>
@@ -62,31 +81,38 @@
                 </div>
             </div>
         </div>
-        <div id="notwidget">
+        <div id="notwidget" class="base-div">
             <div class="controls">
                 <button class="btn-init">Init</button>
                 <button class="btn-destroy">Destroy</button>
             </div>
             Not a widget!
         </div> 
-        <div id="c" widget="widgets/c">
+        <div id="c" widget="widgets/c" class="base-div">
             <div class="controls">
                 <button class="btn-init">Init</button>
                 <button class="btn-destroy">Destroy</button>
             </div>
             widgets/c
-            <div class="nested-b" widget="widgets/b">
+            <div class="base-div" widget="widgets/b">
                 <div class="controls">
                     <button class="btn-init">Init</button>
                     <button class="btn-destroy">Destroy</button>
                 </div>
                 widgets/b
-                <div class="nested-a" widget="widgets/a">
+                <div class="base-div" widget="widgets/a">
                     <div class="controls">
                         <button class="btn-init">Init</button>
                         <button class="btn-destroy">Destroy</button>
                     </div>
                     widgets/a
+                    <div class="base-div">
+                        <div class="controls">
+                            <button class="btn-init">Init</button>
+                            <button class="btn-destroy">Destroy</button>
+                        </div>
+                        Not a widget!
+                    </div> 
                 </div>
             </div>
         </div>
