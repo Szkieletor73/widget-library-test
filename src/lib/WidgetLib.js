@@ -26,48 +26,72 @@ export default class WidgetLib {
     /**
      * Initializes rendering of widgets, using the `target` as the root parent, and recursively iterating through it's children.
      * @param {HTMLElement | string} target - HTMLElement of the root parent, or string representing it's ID
-     * @param {function} callback - a callback function to execute when done
+     * @param {function} callback - a callback function to execute when done. Optional.
+     * @param {function} resolver - custom resolver function for finding the proper widget class. Optional.
+     * @param {object} options - options to pass to widgets.
      */
-    async init(target, callback = undefined, resolver) {
-        const pending = []
+    async init(target, callback = undefined, options, resolver) {
         resolver = resolver || this.resolver
+        options = options || {
+            preInit: {},
+            postInit: {}
+        }
         target = this.parseTarget(target)
 
-        // Widgets in this implementation do not contain any props that can be affected by parent or child components.
-        // This means that initializing in a specific order is not necessary.
-        const widgetList = target.querySelectorAll("[widget]")
-
-        for (const el of target.attributes.widget ? [target, ...widgetList] : widgetList) {
-            if (!el.widget) {
-                const templatePath = el.attributes.widget.value
-                const resolverPromise = resolver(templatePath)
-                pending.push(resolverPromise)
-
-                resolverPromise.then(
-                    (imported) => {
-                        const widget = new imported.default(el)
-                        el.widget = widget
-                        widget.preInit()
-
-                        const initPromise = widget.init()
-                        pending.push(initPromise)
-
-                        initPromise.then(
-                            (success) => [
-                                widget.postInit()
-                            ]
-                        )
-                    }
-                )
-            }
-        }
-
-        // Wait for every promise to resolve or reject, then callback
-        Promise.allSettled(pending).then(
-            (results) => {
-                callback && callback(results)
+        this.#processNode(target, options, resolver).then(
+            (resolved) => {
+                callback && callback(resolved)
             }
         )
+    }
+
+    /**
+     * Private helper function for recursing. Handles widget tree initialization logic.
+     */
+    #processNode(target, options, resolver) {
+        return new Promise((resolve, reject) => {
+            if (target.attributes.widget && !target.widget) {
+                const templatePath = target.attributes?.widget?.value
+
+                resolver(templatePath).then(
+                    (imported) => {
+                        const widget = new imported.default(target)
+                        target.widget = widget
+                        widget.preInit(options.preInit)
+                        
+                        return widget.init()
+                    }
+                ).then(
+                    (initialized) => {
+                        target.widget.postInit(options.postInit)
+
+                        if (target.children.length) {
+                            const childrenPromises = Array.prototype.slice.call(target.children).map(child => this.#processNode(child, options, resolver))
+                            Promise.allSettled(childrenPromises).then(
+                                (childrenSettled) => {
+                                    resolve([target.widget.id, ...childrenSettled])
+                                }
+                            )
+                        }  else {
+                            resolve(target.widget.id)
+                        }
+                    }
+                )
+            } else {
+                if (target.children.length) {
+                    const childrenPromises = Array.prototype.slice.call(target.children).map(child => this.#processNode(child, options, resolver))
+                    Promise.allSettled(childrenPromises).then(
+                        (childrenSettled) => {
+                            resolve(childrenSettled)
+                        }
+                    )
+                } else {
+                    resolve()
+                }
+            }
+
+           
+        })
     }
 
     /**
